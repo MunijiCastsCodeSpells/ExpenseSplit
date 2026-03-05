@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Expense Split Optimizer</title>
+
+<style>
+body{
+font-family: Arial;
+margin:40px;
+}
+
+input{
+margin:5px;
+}
+
+.expense-block{
+border:1px solid #ccc;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+margin-top:10px;
+}
+</style>
+
+<script>
+
+function addExpense(){
+
+    const container = document.getElementById("expenses");
+
+    const block = document.createElement("div");
+    block.className = "expense-block";
+
+    block.innerHTML = `
+    <h4>Expense</h4>
+
+    Payer:
+    <input name="payer" required>
+
+    Amount:
+    <input name="amount" type="number" step="0.01" required>
+
+    Category:
+    <select name="category">
+        <option>Food</option>
+        <option>Travel</option>
+        <option>Hotel</option>
+        <option>Other</option>
+    </select>
+
+    <p>Shares (format: name:amount,name:amount)</p>
+    <input name="shares" placeholder="rishi:300,devansh:300,yuvraj:300">
+    `;
+
+    container.appendChild(block);
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>Expense Split Optimizer</h2>
+
+<form method="POST">
+
+<h3>Participants (comma separated)</h3>
+
+<input name="names" placeholder="rishi,devansh,yuvraj">
+
+<h3>Expenses</h3>
+
+<div id="expenses">
+
+<div class="expense-block">
+
+<h4>Expense</h4>
+
+Payer:
+<input name="payer">
+
+Amount:
+<input name="amount" type="number" step="0.01">
+
+Category:
+<select name="category">
+<option>Food</option>
+<option>Travel</option>
+<option>Hotel</option>
+<option>Other</option>
+</select>
+
+<p>Shares (format: name:amount,name:amount)</p>
+
+<input name="shares" placeholder="rishi:300,devansh:300,yuvraj:300">
+
+</div>
+
+</div>
+
+<button type="button" onclick="addExpense()">Add Expense</button>
+
+<br><br>
+
+<button type="submit">Calculate Settlement</button>
+</form>
+
+<h3>Transactions</h3>
+
+{% if error %}
+<p style="color:red">{{error}}</p>
+{% endif %}
+
+<ul>
+
+{% for t in transactions %}
+
+<li>{{t}}</li>
+
+{% endfor %}
+
+</ul>
+<h3>Settlement Graph</h3>
+
+<img src="{{ url_for('static', filename='graph.png') }}" width="500">
+
+<h3>Past Expenses</h3>
+
+<table border="1">
+
+<tr>
+<th>Payer</th>
+<th>Amount</th>
+<th>Category</th>
+<th>Shares</th>
+</tr>
+
+{% for row in history %}
+
+<tr>
+<td>{{row[0]}}</td>
+<td>{{row[1]}}</td>
+<td>{{row[2]}}</td>
+<td>{{row[3]}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+</body>
+
+</html>
