@@ -1,8 +1,5 @@
 # ExpenseSplit
 Python Flask application implementing an O(n log n) heap-based algorithm to minimize group expense settlement transactions.
-# Expense Settlement Optimizer
-
-A Flask-based web application that minimizes the number of transactions required to settle group expenses.
 
 ## Features
 - Multiple expense support
